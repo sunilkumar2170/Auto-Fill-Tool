@@ -32,3 +32,8 @@
   --resume-control-bar-height: 3rem;
   --resume-padding: 1.5rem;
 }
+
+html,
+body {
+  overflow-x: hidden;
+}
