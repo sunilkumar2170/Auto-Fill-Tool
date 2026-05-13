@@ -179,8 +179,26 @@ const getHTMLFromBulletListStrings = (bulletListStrings: string[]) => {
     return "<div></div>";
   }
 
-  return bulletListStrings.map((text) => `<div>${text}</div>`).join("");
+  return bulletListStrings
+    .map((text) => `<div>${escapeHtml(text)}</div>`)
+    .join("");
 };
+
+const escapeHtml = (value: string) =>
+  value.replace(/[&<>"]/g, (char) => {
+    switch (char) {
+      case "&":
+        return "&amp;";
+      case "<":
+        return "&lt;";
+      case ">":
+        return "&gt;";
+      case '"':
+        return "&quot;";
+      default:
+        return char;
+    }
+  });
 
 /**
  * BulletListTextareaFallback is a fallback for BulletListTextareaGeneral to work around
