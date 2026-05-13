@@ -15,7 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      <body className="bg-white text-gray-900 dark:bg-gray-950 dark:text-white">
         <TopNavBar />
         {children}
         <Analytics />

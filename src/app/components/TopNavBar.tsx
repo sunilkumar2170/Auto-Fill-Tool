@@ -1,5 +1,6 @@
 "use client";
-import { useState } from "react";
+
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -33,56 +34,48 @@ export const TopNavBar = () => {
         : "text-gray-700 hover:bg-gray-100"
     );
 
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme");
+
+    if (savedTheme === "dark") {
+      setDarkMode(true);
+      document.documentElement.classList.add("dark");
+    }
+  }, []);
+
+  const toggleDarkMode = () => {
+    if (darkMode) {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    } else {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    }
+
+    setDarkMode(!darkMode);
+  };
+
   return (
     <header
       aria-label="Site Header"
       className={cx(
-        "sticky top-0 z-40 border-b border-gray-200/80 bg-white/95 px-3 backdrop-blur supports-[backdrop-filter]:bg-white/80 lg:px-12",
+        "flex h-[var(--top-nav-bar-height)] items-center border-b-2 border-gray-100 bg-white px-3 dark:border-gray-700 dark:bg-black lg:px-12",
         isHomePage && "bg-dot"
       )}
     >
-      <div className="flex min-h-[var(--top-nav-bar-height)] w-full flex-col justify-center">
-        <div className="flex h-11 w-full items-center justify-between gap-2">
-          <Link
-            href="/"
-            onClick={() => setIsOpen(false)}
-            className="rounded-md px-1 py-1 transition-opacity hover:opacity-90"
-          >
-            <span className="sr-only">OpenResume</span>
-            <Image
-              src={logoSrc}
-              alt="OpenResume Logo"
-              className="h-8 w-full"
-              priority
-            />
-          </Link>
+      <div className="flex h-10 w-full items-center justify-between">
+        <Link href="/">
+          <span className="sr-only">OpenResume</span>
 
-          <button
-            onClick={() => setIsOpen((prev) => !prev)}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-700 shadow-sm transition-all hover:bg-gray-50 hover:text-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--theme-purple)] lg:hidden"
-            aria-label="Toggle Menu"
-            aria-expanded={isOpen}
-            aria-controls="mobile-navigation-menu"
-            type="button"
-          >
-            {isOpen ? <X size={20} aria-hidden="true" /> : <Menu size={20} aria-hidden="true" />}
-          </button>
-
-          <nav
-            aria-label="Site Nav Bar"
-            className="hidden items-center gap-1 rounded-full border border-gray-200 bg-white/90 p-1 shadow-sm lg:flex"
-          >
-            {navLinks.map(([href, text]) => (
-              <Link
-                key={text}
-                className={getDesktopLinkClassName(href)}
-                href={href}
-              >
-                {text}
-              </Link>
-            ))}
-          </nav>
-        </div>
+          <Image
+            src={logoSrc}
+            alt="OpenResume Logo"
+            className="h-8 w-full"
+            priority
+          />
+        </Link>
 
         <nav
           id="mobile-navigation-menu"
@@ -92,17 +85,34 @@ export const TopNavBar = () => {
             isOpen ? "max-h-72 opacity-100" : "max-h-0 opacity-0"
           )}
         >
-          <div className="mb-2 mt-2 flex flex-col gap-1 rounded-xl border border-gray-200 bg-white p-2 shadow-md">
-            {navLinks.map(([href, text]) => (
-              <Link
-                key={`mobile-${text}`}
-                className={getMobileLinkClassName(href)}
-                href={href}
-                onClick={() => setIsOpen(false)}
-              >
-                {text}
-              </Link>
-            ))}
+          {[
+            ["/resume-builder", "Builder"],
+            ["/resume-parser", "Parser"],
+          ].map(([href, text]) => (
+            <Link
+              key={text}
+              className="rounded-md px-1.5 py-2 text-gray-500 hover:bg-gray-100 focus-visible:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800 lg:px-4"
+              href={href}
+            >
+              {text}
+            </Link>
+          ))}
+
+          <button
+            onClick={toggleDarkMode}
+            className="rounded-md bg-black px-3 py-2 text-white hover:bg-gray-800 dark:bg-white dark:text-black"
+          >
+            {darkMode ? "Light Mode" : "Dark Mode"}
+          </button>
+
+          <div className="ml-1 mt-1">
+            <iframe
+              src="https://ghbtns.com/github-btn.html?user=xitanggg&repo=open-resume&type=star&count=true"
+              width="100"
+              height="20"
+              className="overflow-hidden border-none"
+              title="GitHub"
+            />
           </div>
         </nav>
       </div>
