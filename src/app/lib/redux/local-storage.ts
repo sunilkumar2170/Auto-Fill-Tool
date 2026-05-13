@@ -24,3 +24,7 @@ export const saveStateToLocalStorage = (state: RootState) => {
 };
 
 export const getHasUsedAppBefore = () => Boolean(loadStateFromLocalStorage());
+
+export const clearStateFromLocalStorage = () => {
+  localStorage.removeItem(LOCAL_STORAGE_KEY);
+};

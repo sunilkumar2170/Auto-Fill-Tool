@@ -7,6 +7,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { usePDF } from "@react-pdf/renderer";
 import dynamic from "next/dynamic";
+import {clearStateFromLocalStorage} from "lib/redux/local-storage";
 
 const ResumeControlBar = ({
   scale,
@@ -32,6 +33,17 @@ const ResumeControlBar = ({
   useEffect(() => {
     update();
   }, [update, document]);
+
+  //reset handler
+  const handleReset = () => {
+    const confirmed = window.confirm(
+      "Are you sure you want to reset the resume?"
+    );
+    if(!confirmed) return;
+
+    clearStateFromLocalStorage();
+    window.location.reload();
+  };
 
   return (
     <div className="sticky bottom-0 left-0 right-0 flex h-[var(--resume-control-bar-height)] items-center justify-center px-[var(--resume-padding)] text-gray-600 lg:justify-between">
@@ -67,6 +79,12 @@ const ResumeControlBar = ({
         <ArrowDownTrayIcon className="h-4 w-4" />
         <span className="whitespace-nowrap">Download Resume</span>
       </a>
+      <button
+        onClick = {handleReset}
+        className = "ml-1 flex items-center gap-1 rounded-md border border-gray-300 px--3 py-0.5 text-gray-600 hover:bg-gray-50 lg:ml-2"
+      >
+        Reset Resume
+      </button>
     </div>
   );
 };
