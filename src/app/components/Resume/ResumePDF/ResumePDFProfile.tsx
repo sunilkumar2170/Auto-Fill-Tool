@@ -8,6 +8,7 @@ import {
   ResumePDFLink,
   ResumePDFSection,
   ResumePDFText,
+  addSoftBreaksToLongUnbrokenText,
 } from "components/Resume/ResumePDF/common";
 import type { ResumeProfile } from "lib/redux/types";
 
@@ -85,12 +86,17 @@ export const ResumePDFProfile = ({
                 ...styles.flexRow,
                 alignItems: "center",
                 gap: spacing["1"],
+                maxWidth: "100%",
               }}
             >
               <ResumePDFIcon type={iconType} isPDF={isPDF} />
-              <Wrapper>
-                <ResumePDFText>{value}</ResumePDFText>
-              </Wrapper>
+              <View style={{ flexGrow: 1, flexBasis: 0, maxWidth: "100%" }}>
+                <Wrapper>
+                  <ResumePDFText>
+                    {addSoftBreaksToLongUnbrokenText(value)}
+                  </ResumePDFText>
+                </Wrapper>
+              </View>
             </View>
           );
         })}
