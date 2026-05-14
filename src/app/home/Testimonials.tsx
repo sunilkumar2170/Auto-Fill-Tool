@@ -33,17 +33,21 @@ const TESTIMONIALS = [
 
 const LG_TESTIMONIALS_CLASSNAMES = [
   "z-10",
-  "translate-x-44 translate-y-24 opacity-40",
-  "translate-x-32 -translate-y-28 opacity-40",
+  "translate-x-44 translate-y-24 opacity-70",
+  "translate-x-32 -translate-y-28 opacity-70",
 ];
+
 const SM_TESTIMONIALS_CLASSNAMES = ["z-10", "opacity-0", "opacity-0"];
-const ROTATION_INTERVAL_MS = 8 * 1000; // 8s
+
+const ROTATION_INTERVAL_MS = 8 * 1000;
 
 export const Testimonials = ({ children }: { children?: React.ReactNode }) => {
   const [testimonialsClassNames, setTestimonialsClassNames] = useState(
     LG_TESTIMONIALS_CLASSNAMES
   );
+
   const isHoveredOnTestimonial = useRef(false);
+
   useEffect(() => {
     const intervalId = setInterval(() => {
       if (!isHoveredOnTestimonial.current) {
@@ -52,10 +56,12 @@ export const Testimonials = ({ children }: { children?: React.ReactNode }) => {
         });
       }
     }, ROTATION_INTERVAL_MS);
+
     return () => clearInterval(intervalId);
   }, []);
 
   const { isLg } = useTailwindBreakpoints();
+
   useEffect(() => {
     setTestimonialsClassNames(
       isLg ? LG_TESTIMONIALS_CLASSNAMES : SM_TESTIMONIALS_CLASSNAMES
@@ -64,19 +70,21 @@ export const Testimonials = ({ children }: { children?: React.ReactNode }) => {
 
   return (
     <section className="mx-auto -mt-2 px-8 pb-24">
-      <h2 className="mb-8 text-center text-3xl font-bold">
+      <h2 className="mb-8 text-center text-3xl font-bold text-gray-900 dark:text-white">
         People{" "}
         <Image src={heartSrc} alt="love" className="-mt-1 inline-block w-7" />{" "}
         OpenResume
       </h2>
+
       <div className="mx-auto mt-10 h-[235px] max-w-lg lg:h-[400px] lg:pt-28">
         <div className="relative lg:ml-[-50px]">
           {TESTIMONIALS.map(({ src, quote, name, title }, idx) => {
             const className = testimonialsClassNames[idx];
+
             return (
               <div
                 key={idx}
-                className={`bg-primary absolute max-w-lg rounded-[1.7rem] bg-opacity-30 shadow-md transition-all duration-1000 ease-linear ${className}`}
+                className={`bg-primary absolute max-w-lg rounded-[1.7rem] bg-opacity-30 shadow-lg transition-all duration-1000 ease-linear dark:shadow-black/40 ${className}`}
                 onMouseEnter={() => {
                   if (className === "z-10") {
                     isHoveredOnTestimonial.current = true;
@@ -88,38 +96,53 @@ export const Testimonials = ({ children }: { children?: React.ReactNode }) => {
                   }
                 }}
               >
-                <figure className="m-1 flex gap-5 rounded-3xl bg-white p-5 text-gray-900 lg:p-7">
+                <figure className="m-1 flex gap-5 rounded-3xl bg-white p-5 text-gray-900 dark:bg-gray-800 dark:text-gray-100 lg:p-7">
                   <Image
                     className="hidden h-24 w-24 select-none rounded-full lg:block"
                     src={src}
                     alt="profile"
                   />
+
                   <div>
                     <blockquote>
-                      <p className="before:content-['“'] after:content-['”']">
+                      <p className="leading-relaxed before:content-['“'] after:content-['”']">
                         {quote}
                       </p>
                     </blockquote>
+
                     <figcaption className="mt-3">
                       <div className="hidden gap-2 lg:flex">
-                        <div className="font-semibold">{name}</div>
+                        <div className="font-semibold text-gray-900 dark:text-white">
+                          {name}
+                        </div>
+
                         <div
-                          className="select-none text-gray-700"
+                          className="select-none text-gray-500 dark:text-gray-400"
                           aria-hidden="true"
                         >
                           •
                         </div>
-                        <div className="text-gray-600">{title}</div>
+
+                        <div className="text-gray-600 dark:text-gray-300">
+                          {title}
+                        </div>
                       </div>
+
                       <div className="flex gap-4 lg:hidden">
                         <Image
-                          className=" block h-12 w-12 select-none rounded-full"
+                          className="block h-12 w-12 select-none rounded-full"
                           src={src}
                           alt="profile"
                         />
+
                         <div>
-                          <div className="font-semibold">{name}</div>
-                          <div className="text-gray-600">{title}</div>
+                          <div className="font-semibold text-gray-900 dark:text-white">
+                            {name}
+                          </div>
+
+                          <div className="text-gray-600 dark:text-gray-300">
+                            {title}
+                          </div>
                         </div>
                       </div>
                     </figcaption>
@@ -130,6 +153,7 @@ export const Testimonials = ({ children }: { children?: React.ReactNode }) => {
           })}
         </div>
       </div>
+
       {children}
     </section>
   );

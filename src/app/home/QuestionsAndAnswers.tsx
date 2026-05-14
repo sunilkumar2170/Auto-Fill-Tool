@@ -39,7 +39,7 @@ const QAS = [
           stands out with 2 distinctive features:
         </p>{" "}
         <p>
-          <span className="font-semibold">
+          <span className="font-semibold text-gray-800 dark:text-gray-100">
             1. OpenResume is designed specifically for the U.S. job market and
             best practices.
           </span>
@@ -55,7 +55,7 @@ const QAS = [
           single column design works best for AST. <br />{" "}
         </p>
         <p>
-          <span className="font-semibold">
+          <span className="font-semibold text-gray-800 dark:text-gray-100">
             2. OpenResume is super privacy focus.
           </span>{" "}
           <br />
@@ -124,13 +124,19 @@ const QAS = [
 
 export const QuestionsAndAnswers = () => {
   return (
-    <section className="mx-auto max-w-3xl divide-y divide-gray-300 lg:mt-4 lg:px-2">
-      <h2 className="text-center text-3xl font-bold">Questions & Answers</h2>
-      <div className="mt-6 divide-y divide-gray-300">
+    <section className="mx-auto max-w-3xl divide-y divide-gray-300 rounded-2xl px-4 py-10 text-gray-900 transition-colors duration-300 dark:divide-gray-700 dark:text-gray-100 lg:mt-4 lg:px-6">
+      <h2 className="text-center text-3xl font-bold text-gray-900 dark:text-white">
+        Questions & Answers
+      </h2>
+
+      <div className="mt-6 divide-y divide-gray-300 dark:divide-gray-700">
         {QAS.map(({ question, answer }) => (
           <div key={question} className="py-6">
-            <h3 className="font-semibold leading-7">{question}</h3>
-            <div className="mt-3 grid gap-2 leading-7 text-gray-600">
+            <h3 className="font-semibold leading-7 text-gray-900 dark:text-white">
+              {question}
+            </h3>
+
+            <div className="mt-3 grid gap-3 leading-7 text-gray-600 dark:text-gray-300">
               {answer}
             </div>
           </div>

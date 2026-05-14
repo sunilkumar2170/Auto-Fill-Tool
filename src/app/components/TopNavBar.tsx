@@ -47,11 +47,11 @@ export const TopNavBar = () => {
           <span className="sr-only">OpenResume</span>
 
           <Image
-            src={logoSrc}
-            alt="OpenResume Logo"
-            className="h-8 w-full"
-            priority
-          />
+  src={logoSrc}
+  alt="OpenResume Logo"
+  className="h-8 w-full dark:invert"
+  priority
+/>
         </Link>
 
         <nav
