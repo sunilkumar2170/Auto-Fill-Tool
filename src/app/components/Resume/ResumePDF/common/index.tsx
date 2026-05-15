@@ -4,6 +4,24 @@ import { styles, spacing } from "components/Resume/ResumePDF/styles";
 import { DEBUG_RESUME_PDF_FLAG } from "lib/constants";
 import { DEFAULT_FONT_COLOR } from "lib/redux/settingsSlice";
 
+const SOFT_BREAK_CHARACTER = "\u200B";
+const LONG_UNBROKEN_TEXT_LENGTH = 20;
+const SOFT_BREAK_INTERVAL = 8;
+
+export const addSoftBreaksToLongUnbrokenText = (text: string) => {
+  return text
+    .split(/(\s+)/)
+    .map((segment) => {
+      if (segment.length < LONG_UNBROKEN_TEXT_LENGTH || /\s+/.test(segment)) {
+        return segment;
+      }
+
+      const chunks = segment.match(new RegExp(`.{1,${SOFT_BREAK_INTERVAL}}`, "g"));
+return chunks ? chunks.join(SOFT_BREAK_CHARACTER) : segment;
+    })
+    .join("");
+};
+
 export const ResumePDFSection = ({
   themeColor,
   heading,
@@ -104,7 +122,7 @@ export const ResumePDFBulletList = ({
           <ResumePDFText
             style={{ lineHeight: "1.3", flexGrow: 1, flexBasis: 0 }}
           >
-            {item}
+            {addSoftBreaksToLongUnbrokenText(item)}
           </ResumePDFText>
         </View>
       ))}
