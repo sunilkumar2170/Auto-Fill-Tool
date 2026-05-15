@@ -61,7 +61,7 @@ export const TopNavBar = () => {
     <header
       aria-label="Site Header"
       className={cx(
-        "flex h-[var(--top-nav-bar-height)] items-center border-b-2 border-gray-100 bg-white px-3 dark:border-gray-700 dark:bg-black lg:px-12",
+        "sticky top-0 z-40 h-[var(--top-nav-bar-height)] flex items-center border-b border-gray-200/80 dark:border-gray-700 bg-white/95 dark:bg-black px-3 backdrop-blur supports-[backdrop-filter]:bg-white/80 lg:px-12 overflow-x-hidden",
         isHomePage && "bg-dot"
       )}
     >
@@ -80,6 +80,8 @@ export const TopNavBar = () => {
         <nav
           id="mobile-navigation-menu"
           aria-label="Mobile Site Nav Bar"
+          aria-hidden={!isOpen}
+          tabIndex={isOpen ? 0 : -1}
           className={cx(
             "overflow-hidden transition-all duration-300 ease-out lg:hidden",
             isOpen ? "max-h-72 opacity-100" : "max-h-0 opacity-0"

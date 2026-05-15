@@ -33,7 +33,5 @@
   --resume-padding: 1.5rem;
 }
 
-html,
-body {
-  overflow-x: hidden;
-}
+/* Removed global overflow-x to avoid hiding horizontal scroll globally.
+   Scoped overflow-x-hidden will be applied to the navbar container instead. */
