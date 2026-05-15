@@ -3,7 +3,7 @@ import ContentEditable from "react-contenteditable";
 import { useAutosizeTextareaHeight } from "lib/hooks/useAutosizeTextareaHeight";
 
 interface InputProps<K extends string, V extends string | string[]> {
-  label: string;
+  label: string | React.ReactNode;
   labelClassName?: string;
   // name is passed in as a const string. Therefore, we make it a generic type so its type can
   // be more restricted as a const for the first argument in onChange
@@ -22,7 +22,7 @@ export const InputGroupWrapper = ({
   className,
   children,
 }: {
-  label: string;
+  label: string | React.ReactNode;
   className?: string;
   children?: React.ReactNode;
 }) => (
@@ -44,7 +44,15 @@ export const Input = <K extends string>({
   labelClassName,
 }: InputProps<K, string>) => {
   return (
-    <InputGroupWrapper label={label} className={labelClassName}>
+    <InputGroupWrapper 
+      label={
+        <div className="flex justify-between items-center w-full">
+          <span>{label}</span>
+          <span className="text-xs font-normal text-gray-400">{value.length} chars</span>
+        </div>
+      } 
+      className={labelClassName}
+    >
       <input
         type="text"
         name={name}
@@ -68,7 +76,15 @@ export const Textarea = <T extends string>({
   const textareaRef = useAutosizeTextareaHeight({ value });
 
   return (
-    <InputGroupWrapper label={label} className={wrapperClassName}>
+    <InputGroupWrapper 
+      label={
+        <div className="flex justify-between items-center w-full">
+          <span>{label}</span>
+          <span className="text-xs font-normal text-gray-400">{value.length} chars</span>
+        </div>
+      } 
+      className={wrapperClassName}
+    >
       <textarea
         ref={textareaRef}
         name={name}
@@ -122,8 +138,18 @@ const BulletListTextareaGeneral = <T extends string>({
   showBulletPoints = true,
 }: InputProps<T, string[]> & { showBulletPoints?: boolean }) => {
   const html = getHTMLFromBulletListStrings(bulletListStrings);
+  const textLength = bulletListStrings.join("\n").length;
+  
   return (
-    <InputGroupWrapper label={label} className={wrapperClassName}>
+    <InputGroupWrapper 
+      label={
+        <div className="flex justify-between items-center w-full">
+          <span>{label}</span>
+          <span className="text-xs font-normal text-gray-400">{textLength} chars</span>
+        </div>
+      } 
+      className={wrapperClassName}
+    >
       <ContentEditable
         contentEditable={true}
         className={`${INPUT_CLASS_NAME} cursor-text [&>div]:list-item ${
