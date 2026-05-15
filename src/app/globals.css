@@ -32,3 +32,6 @@
   --resume-control-bar-height: 3rem;
   --resume-padding: 1.5rem;
 }
+
+/* Removed global overflow-x to avoid hiding horizontal scroll globally.
+   Scoped overflow-x-hidden will be applied to the navbar container instead. */

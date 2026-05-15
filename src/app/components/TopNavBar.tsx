@@ -4,12 +4,35 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import { Menu, X } from "lucide-react";
 import logoSrc from "public/logo.svg";
 import { cx } from "lib/cx";
 
 export const TopNavBar = () => {
   const pathName = usePathname();
   const isHomePage = pathName === "/";
+  const [isOpen, setIsOpen] = useState(false);
+
+  const navLinks = [
+    ["/resume-builder", "Builder"],
+    ["/resume-parser", "Parser"],
+  ] as const;
+
+  const getDesktopLinkClassName = (href: string) =>
+    cx(
+      "rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--theme-purple)]",
+      pathName === href
+        ? "bg-primary shadow-sm"
+        : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+    );
+
+  const getMobileLinkClassName = (href: string) =>
+    cx(
+      "rounded-lg px-3 py-2.5 text-sm font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--theme-purple)]",
+      pathName === href
+        ? "bg-primary"
+        : "text-gray-700 hover:bg-gray-100"
+    );
 
   const [darkMode, setDarkMode] = useState(false);
 
@@ -38,7 +61,7 @@ export const TopNavBar = () => {
     <header
       aria-label="Site Header"
       className={cx(
-        "flex h-[var(--top-nav-bar-height)] items-center border-b-2 border-gray-100 bg-white px-3 dark:border-gray-700 dark:bg-black lg:px-12",
+        "sticky top-0 z-40 h-[var(--top-nav-bar-height)] flex items-center border-b border-gray-200/80 dark:border-gray-700 bg-white/95 dark:bg-black px-3 backdrop-blur supports-[backdrop-filter]:bg-white/80 lg:px-12 overflow-x-hidden",
         isHomePage && "bg-dot"
       )}
     >
@@ -55,8 +78,14 @@ export const TopNavBar = () => {
         </Link>
 
         <nav
-          aria-label="Site Nav Bar"
-          className="flex items-center gap-2 text-sm font-medium"
+          id="mobile-navigation-menu"
+          aria-label="Mobile Site Nav Bar"
+          aria-hidden={!isOpen}
+          tabIndex={isOpen ? 0 : -1}
+          className={cx(
+            "overflow-hidden transition-all duration-300 ease-out lg:hidden",
+            isOpen ? "max-h-72 opacity-100" : "max-h-0 opacity-0"
+          )}
         >
           {[
             ["/resume-builder", "Builder"],
