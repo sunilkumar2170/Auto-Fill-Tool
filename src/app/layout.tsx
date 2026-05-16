@@ -1,6 +1,8 @@
-import "globals.css";
+// @ts-ignore: side-effect CSS import declarations
+import "./globals.css";
 import { TopNavBar } from "components/TopNavBar";
 import { Analytics } from "@vercel/analytics/react";
+import Footer from "./components/Footer";
 
 export const metadata = {
   title: "OpenResume - Free Open-source Resume Builder and Parser",
@@ -19,6 +21,7 @@ export default function RootLayout({
         <TopNavBar />
         {children}
         <Analytics />
+        <Footer />
       </body>
     </html>
   );
