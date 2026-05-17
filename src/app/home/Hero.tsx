@@ -7,7 +7,7 @@ export const Hero = () => {
     <section className="lg:flex lg:h-[825px] lg:justify-center dark:bg-gray-950 dark:text-white">
       <FlexboxSpacer maxWidth={75} minWidth={0} className="hidden lg:block" />
 
-      <div className="mx-auto max-w-xl pt-8 text-center lg:mx-0 lg:grow lg:pt-32 lg:text-left">
+      <div className="mx-auto max-w-xl px-4 pt-8 text-center lg:mx-0 lg:grow lg:px-0 lg:pt-32 lg:text-left">
         <h1 className="text-primary pb-2 text-4xl font-bold lg:text-5xl dark:text-blue-300">
           Create a professional
           <br />
@@ -18,7 +18,7 @@ export const Hero = () => {
           With this free, open-source, and powerful resume builder
         </p>
 
-        <Link href="/resume-import" className="btn-primary mt-6 lg:mt-14">
+        <Link href="/resume-import" className="btn-primary mt-6 transform transition-all duration-300 hover:scale-105 hover:shadow-lg lg:mt-14">
           Create Resume <span aria-hidden="true">→</span>
         </Link>
 
