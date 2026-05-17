@@ -122,6 +122,9 @@ const BulletListTextareaGeneral = <T extends string>({
   showBulletPoints = true,
 }: InputProps<T, string[]> & { showBulletPoints?: boolean }) => {
   const html = getHTMLFromBulletListStrings(bulletListStrings);
+ const charCount = bulletListStrings.join(" ").length;
+  const maxChars = 300;
+
   return (
     <InputGroupWrapper label={label} className={wrapperClassName}>
       <ContentEditable
@@ -141,6 +144,9 @@ const BulletListTextareaGeneral = <T extends string>({
         }}
         html={html}
       />
+      <div className={`text-right text-xs mt-1 ${charCount > maxChars ? "text-red-500" : "text-gray-400"}`}>
+        {charCount} / {maxChars} characters
+      </div>
     </InputGroupWrapper>
   );
 };
