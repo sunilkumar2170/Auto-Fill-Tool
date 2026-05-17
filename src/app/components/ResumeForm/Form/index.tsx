@@ -55,9 +55,15 @@ const FORM_TO_ICON: { [section in ShowForm]: typeof BuildingOfficeIcon } = {
   custom: WrenchIcon,
 };
 
-export const Form = ({ 
+const FORM_TO_TIPS: { [section in ShowForm]: string } = {
+  workExperiences: "Start each bullet with an action verb like 'Led', 'Built', or 'Improved'. Quantify achievements where possible e.g. 'Increased sales by 20%'.",
+  educations: "Include your GPA if it is above 3.5. List relevant coursework or academic achievements.",
+  projects: "Include a link to your GitHub or live demo. Mention the tech stack you used.",
+  skills: "List technical skills relevant to the job. Group them by category e.g. Languages, Frameworks, Tools.",
+  custom: "Add any additional information relevant to your application such as certifications or volunteer work.",
+};
 
-
+export const Form = ({
   form,
   addButtonText,
   children,
@@ -87,21 +93,20 @@ export const Form = ({
   const Icon = FORM_TO_ICON[form];
   const resume = useAppSelector(selectResume);
 
-const fields = Object.values(resume || {});
+  const fields = Object.values(resume || {});
 
-const completedFields = fields.filter(
-  (field) =>
-    field !== "" &&
-    field !== null &&
-    field !== undefined &&
-    !(Array.isArray(field) && field.length === 0)
-).length;
+  const completedFields = fields.filter(
+    (field) =>
+      field !== "" &&
+      field !== null &&
+      field !== undefined &&
+      !(Array.isArray(field) && field.length === 0)
+  ).length;
 
-const totalFields = fields.length;
+  const totalFields = fields.length;
 
-const progress =
-  totalFields === 0 ? 0 : Math.round((completedFields / totalFields) * 100);
-
+  const progress =
+    totalFields === 0 ? 0 : Math.round((completedFields / totalFields) * 100);
 
   return (
     <BaseForm
@@ -109,24 +114,31 @@ const progress =
         showForm ? "pb-6" : "pb-2 opacity-60"
       }`}
     >
-    <div style={{ marginBottom: "20px" }}>
-  <p style={{ fontWeight: "600" }}>Resume Completion: {progress}%</p>
-
-  <div style={{ width: "100%", background: "#eee", height: "8px", borderRadius: "4px" }}>
-    <div
-      style={{
-        width: `${progress}%`,
-        background: "#22c55e",
-        height: "100%",
-        borderRadius: "4px",
-        transition: "width 0.3s ease"
-      }}
-    />
-  </div>
-</div>
+      <div style={{ marginBottom: "20px" }}>
+        <p style={{ fontWeight: "600" }}>Resume Completion: {progress}%</p>
+        <div style={{ width: "100%", background: "#eee", height: "8px", borderRadius: "4px" }}>
+          <div
+            style={{
+              width: `${progress}%`,
+              background: "#22c55e",
+              height: "100%",
+              borderRadius: "4px",
+              transition: "width 0.3s ease"
+            }}
+          />
+        </div>
+      </div>
       <div className="flex items-center justify-between gap-4">
         <div className="flex grow items-center gap-2">
           <Icon className="h-6 w-6 text-gray-600" aria-hidden="true" />
+          <div className="group relative inline-flex items-center">
+            <span className="cursor-pointer inline-flex items-center justify-center w-5 h-5 rounded-full bg-gray-200 text-gray-600 text-xs font-bold">
+              ?
+            </span>
+            <div className="absolute left-6 top-0 z-50 hidden w-64 rounded-md bg-gray-700 px-3 py-2 text-xs text-white group-hover:block">
+              {FORM_TO_TIPS[form]}
+            </div>
+          </div>
           <input
             type="text"
             className="block w-full border-b border-transparent text-lg font-semibold tracking-wide text-gray-900 outline-none hover:border-gray-300 hover:shadow-sm focus:border-gray-300 focus:shadow-sm"
